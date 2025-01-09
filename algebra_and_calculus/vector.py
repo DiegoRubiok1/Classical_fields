@@ -40,11 +40,19 @@ class R2Vector:
                 "The component <j> of the vector must be a float or integer")
 
 class R3Vector:
+
     def __init__(self, i: float, j: float, k: float):
         self.__i = i
         self.__j = j
         self.__k = k
 
+    # Define the str() function to return the components string
+    def __str__(self):
+        text = "x: " + str(self.i) + "y: " + str(self.j) + "z: " + str(
+            self.k)
+        return text
+
+    # Define sum with other R3Vectors
     def __add__(self, other):
         if isinstance(other, R3Vector):
             i = self.__i + other.__i
@@ -52,14 +60,17 @@ class R3Vector:
             k = self.__k + other.__k
             return R3Vector(i,j,k)
         else:
-            raise TypeError("The sum type must be R3Vector: ", type(other))
+            raise TypeError("The sum must be a R3Vector: " + str(type(other)))
 
+    # Define multiply with scalars
     def __mul__(self, esc: float):
-        if isinstance(esc, float):
+        if isinstance(esc, float) or isinstance(esc, int):
             return R3Vector(esc * self.__i, esc * self.__j, esc * self.__k)
         else:
-            raise TypeError("Product by escalar must be a float: ", type(esc))
+            raise TypeError("Product with escalar must be a float: " +
+                            str(type(esc)))
 
+    # Method for calculate the norm of R3Vectors
     def mod(self) -> float:
         return (self.i**2 + self.j**2 + self.k**2)**0.5
 

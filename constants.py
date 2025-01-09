@@ -5,8 +5,8 @@ Universidad Carlos III de Madrid
 from algebra_and_calculus.vector import R3Vector
 
 #-------------------------------- ESPACIO -------------------------------------
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 250
+HEIGHT = 250
 
 #-------------------------------- CUERPOS -------------------------------------
 

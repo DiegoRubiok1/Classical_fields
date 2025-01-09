@@ -22,6 +22,30 @@ class Particle:
         self.__q = charge
         self.__m = mass
 
+    # Calculates the field in a point of the space
+    def g_field_generated(self, x, y, z) -> R3Vector:
+        dist_x = self.pos.i - x
+        dist_y = self.pos.j - y
+        dist_z = self.pos.k - z
+        # Distance vector between particles:
+        r = R3Vector(dist_x, dist_y, dist_z)
+        if r.mod() == 0:
+            return R3Vector(0, 0, 0)
+        else:
+            # Gravity field equation by Newton:
+            g = r*((G*self.m)/r.mod()**3)
+            return g
+
+    def actualize_velocity(self, dt: float):
+        # dt represents the time (in seconds) between each main loop update
+        self.__vel = self.__vel + (self.__a * dt)
+
+    def actualize_position(self, dt: float):
+        self.__pos = self.pos + (self.__vel * dt)
+
+    def restar_acceleration(self):
+        self.a = R3Vector(0,0,0)
+
     @property
     def m(self) -> float:
         return self.__m
@@ -71,13 +95,6 @@ class Particle:
                 acceleration))
 
 
-    # Calculates the field in a point of the space
-    def g_field_generated(self, x, y, z) -> R3Vector:
-        dist_x = self.pos.i - x
-        dist_y = self.pos.j - y
-        dist_z = self.pos.k - z
-        r = R3Vector(dist_x, dist_y, dist_z)
-        g = r*(G*self.m)/r.mod()**3
-        return g
+
 
 
