@@ -3,7 +3,7 @@ Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
 from algebra_and_calculus.vector import R3Vector
-from constants import G
+from constants import G, K
 
 class Particle:
     def __init__(self, pos: R3Vector, vel: R3Vector, charge: float,
@@ -36,6 +36,19 @@ class Particle:
             g = r*((G*self.m)/r.mod()**3)
             return g
 
+    def e_field_generated(self, x, y, z) -> R3Vector:
+        dist_x =  x - self.pos.i
+        dist_y = y - self.pos.j
+        dist_z = z - self.pos.k
+        # Distance vector between particles:
+        r = R3Vector(dist_x, dist_y, dist_z)
+        if r.mod() == 0:
+            return R3Vector(0, 0, 0)
+        else:
+            # Gravity field equation by Newton:
+            E = r*((K*self.__q)/r.mod()**3)
+            return E
+
     def actualize_velocity(self, dt: float):
         # dt represents the time (in seconds) between each main loop update
         self.__vel = self.__vel + (self.__a * dt)
@@ -43,7 +56,7 @@ class Particle:
     def actualize_position(self, dt: float):
         self.__pos = self.pos + (self.__vel * dt)
 
-    def restar_acceleration(self):
+    def restart_acceleration(self):
         self.a = R3Vector(0,0,0)
 
     @property
@@ -57,6 +70,10 @@ class Particle:
         else:
             raise TypeError("Instance of mass must be R3Vector: ", type(
                 mass))
+
+    @property
+    def q(self) -> float:
+        return self.__q
 
     @property
     def pos(self) -> R3Vector:
