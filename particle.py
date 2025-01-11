@@ -45,7 +45,7 @@ class Particle:
         if r.mod() == 0:
             return R3Vector(0, 0, 0)
         else:
-            # Gravity field equation by Newton:
+            # Electric field equation by Coulomb:
             E = r*((K*self.__q)/r.mod()**3)
             return E
 

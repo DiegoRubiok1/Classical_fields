@@ -5,4 +5,5 @@ Universidad Carlos III de Madrid
 
 from simulation import Simulation
 
+# Runs simulation
 simulation = Simulation()
