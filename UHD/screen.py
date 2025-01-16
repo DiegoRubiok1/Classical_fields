@@ -2,16 +2,23 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
-from logging import raiseExceptions
 
-import pyxel
+
+from button import Button
 class Screen:
-    def __init__(self, width: float, height: float, buttons):
+    def __init__(self, width: float, height: float, buttons: list[Button]):
+
+
         self.__width = width
         self.__height = height
 
-        #parámetros pyxel
+        #Button list
+        self.__buttons = buttons
 
+
+    def draw(self):
+        for button in self.__buttons:
+            button.draw()
 
 
 
@@ -40,5 +47,20 @@ class Screen:
         else:
             raise Exception("Parameter: height not valid. Must be "
                             "positive integer")
+
+
+    @property
+    def buttons(self):
+        return self.__buttons
+
+    @buttons.setter
+    def buttons(self, value):
+        if type(value) != list:
+            raise TypeError("attribute buttons must be a list.")
+        else:
+            for button in value:
+                if type(button) != Button:
+                    raise TypeError("element from buttons must be a button")
+        self.__buttons = value
 
 

@@ -28,12 +28,11 @@ class Simulation:
         pyxel.load("resources.pyxres")
         pyxel.run(self.update, self.draw)
 
+
     def update(self):
+        pyxel.mouse(True)
         self.__space1.update_space()
+
 
     def draw(self):
         self.__space1.draw_space()
-
-
-
-

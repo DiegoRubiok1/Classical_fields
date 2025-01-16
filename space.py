@@ -13,7 +13,7 @@ class Space:
 
         # Particle list
         self.bodies = bodies
-        self.button = Button(10, 10, 200, 10, "HOLA COMO ESTAS")
+        self.button = Button("Prueba", 10, 10, 200, 10, "HOLA COMO ESTAS")
 
 
     def update_space(self):
