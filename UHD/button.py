@@ -5,6 +5,7 @@ Universidad Carlos III de Madrid
 import pyxel
 from pyxel.pyxel_wrapper import MOUSE_BUTTON_LEFT
 
+# Escale text to t
 def bltp(x, y, img, u, v, w, h, scale, colkey=None):
     scale = int(scale)
     for i in range(w * scale):  # Ancho escalado
@@ -13,9 +14,10 @@ def bltp(x, y, img, u, v, w, h, scale, colkey=None):
             pyxel.blt(x + i, y + j, img, u + i // scale, v + j // scale, 1, 1, colkey)
 
 class Button:
-    def __init__(self, x: int, y: int, width: float, height: float,
+    def __init__(self, name: str, x: int, y: int, width: float, height: float,
                  text: str):
-
+        #ID
+        self.name = name
         #Position
         self.__x = x
         self.__y = y
@@ -26,14 +28,16 @@ class Button:
 
         # Text
         self.text = str(text)
+
         self.__char_tuple = ('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                              'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
                              'S',  'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ')
         self.__num_tuple = ('0','1','2','3','4','5','6','7','8','9')
 
-    def btnp(self, x: float, y: float) -> bool:
-        cursor_in_button = (self.__x < x < self.__x + self.__width and
-                            self.__y < y < self.__y + self.__height)
+    def btnp(self) -> bool:
+        cursor_in_button = (self.__x < pyxel.mouse_x < self.__x + self.__width
+                            and self.__y < pyxel.mouse_y < self.__y +
+                            self.__height)
         if cursor_in_button and pyxel.btnp(MOUSE_BUTTON_LEFT):
             print("Button pressed")
             return True

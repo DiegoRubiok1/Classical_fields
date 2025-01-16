@@ -11,9 +11,9 @@ import pyxel
 
 class Simulation:
     def __init__(self):
-        self.__bod_1 = Particle(R3Vector(WIDTH//2, HEIGHT//2, 0), R3Vector(0,
-                                                                        0, 0)
-                 ,1000, 1)
+        self.__bod_1 = Particle(R3Vector(WIDTH//2, HEIGHT//2, 0),
+                                R3Vector(0,0, 0) ,0, 100
+                                )
         self.__bod_2 = Particle(R3Vector(50, 100, 0), R3Vector(0, 1, 0),
                  -10, 1)
         self.__bod_3 = Particle(R3Vector(200, 100, 0), R3Vector(0, 1, 0),
