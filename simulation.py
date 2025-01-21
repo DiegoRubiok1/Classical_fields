@@ -12,13 +12,16 @@ from space import Space
 
 class Simulation:
     def __init__(self):
+
+        #TODO: Add a user friendly way to add bodies and spaces to simulation
+        self.__dt = 1/60 # time unit between frames
+
         self.__bod_1 = Particle(R3Vector(WIDTH//2, HEIGHT//2, 0),
-                                R3Vector(0,0, 0) ,0, 100
-                                )
-        self.__bod_2 = Particle(R3Vector(50, 100, 0), R3Vector(0, 1, 0),
-                 -10, 1)
+                    R3Vector(0,0, 0) ,0, 10**35, 10)
+        self.__bod_2 = Particle(R3Vector(199, 100, 0), R3Vector(0, 5, 0),
+                 -10, 1, 5)
         self.__bod_3 = Particle(R3Vector(200, 100, 0), R3Vector(0, 1, 0),
-                 0, 1)
+                 0, 1, 5)
 
         self.__bodies = [self.__bod_1, self.__bod_2, self.__bod_3]
 
@@ -26,8 +29,19 @@ class Simulation:
 
     # Actualize elements
     def simulation_update(self):
-        self.__space1.update_space()
+        self.__space1.update_space(self.__dt)
 
     # Draw elements
-    def simulation_graph(self):
-        pass
+    def simulation_draw(self, surface):
+        self.__space1.draw(surface)
+
+    @property
+    def dt(self):
+        return self.__dt
+
+    @dt.setter
+    def dt(self, time):
+        if type(time) != float:
+            raise TypeError("dt must be a float")
+        else:
+            self.__dt = time

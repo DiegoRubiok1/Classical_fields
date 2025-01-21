@@ -2,12 +2,14 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
+import pygame.draw
+
 from algebra_and_calculus.vector import R3Vector
 from constants import G, K
 
 class Particle:
     def __init__(self, pos: R3Vector, vel: R3Vector, charge: float,
-                 mass: float):
+                 mass: float, size: float):
         # Cinematic Attributes
         self.__pos =  pos
         self.__vel = vel
@@ -21,9 +23,11 @@ class Particle:
         # Field Attributes
         self.__q = charge
         self.__m = mass
+        self.__size = size #At current version: radius
 
-    # Calculates the field in a point of the space
+
     def g_field_generated(self, x, y, z) -> R3Vector:
+        """Calculates the field in a point of the space"""
         dist_x = self.pos.i - x
         dist_y = self.pos.j - y
         dist_z = self.pos.k - z
@@ -59,6 +63,13 @@ class Particle:
     def restart_acceleration(self):
         self.a = R3Vector(0,0,0)
 
+    def draw(self, surface):
+
+        color = (0, 200, 0)
+        center = (self.pos.i, self.pos.j)
+        #
+        pygame.draw.circle(surface, color, center, self.size)
+
     @property
     def m(self) -> float:
         return self.__m
@@ -70,6 +81,20 @@ class Particle:
         else:
             raise TypeError("Instance of mass must be R3Vector: ", type(
                 mass))
+
+    @property
+    def size(self):
+        return self.__size
+
+    @size.setter
+    def size(self, size):
+        if type(size) != float:
+            raise TypeError("Instance of size must be float: " + str(type(
+                size)))
+        elif size < 0:
+            raise ValueError("The value of size must be positive. Value: " +
+                             str(size))
+        self.__size = size
 
     @property
     def q(self) -> float:
@@ -110,8 +135,3 @@ class Particle:
         else:
             raise TypeError("Instance of acceleration must be R3Vector: ",type(
                 acceleration))
-
-
-
-
-

@@ -4,7 +4,7 @@ Universidad Carlos III de Madrid
 """
 
 from particle import Particle
-import pyxel
+import pygame
 
 class Space:
     def __init__(self, width: int, height: int, bodies: list[Particle]):
@@ -15,15 +15,20 @@ class Space:
         self.bodies = bodies
 
 
-    def update_space(self):
+    def update_space(self, dt):
         """Main loop during simulation"""
-        self._restar_body_acceleration()
+        self._restart_body_acceleration()
         self._magnetic_field_acceleration()
         self._electric_field_acceleration()
-        self._actualize_particles(1)
+        self._actualize_particles(dt)
+
+    def draw(self, surface):
+        """Draw all the bodies in a space"""
+        for particle in self.bodies:
+            particle.draw(surface)
 
 
-    def _restar_body_acceleration(self):
+    def _restart_body_acceleration(self):
         for body in self.bodies:
             body.restart_acceleration()
 
