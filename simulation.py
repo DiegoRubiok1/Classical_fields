@@ -2,11 +2,12 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
+import pygame.base
+
 from algebra_and_calculus.vector import R3Vector
 from constants import WIDTH, HEIGHT
 from particle import Particle
 from space import Space
-import pyxel
 
 
 class Simulation:
@@ -23,16 +24,10 @@ class Simulation:
 
         self.__space1 = Space(WIDTH, HEIGHT, self.__bodies)
 
-        # Initialize graphics
-        pyxel.init(WIDTH, HEIGHT, title="3 Cuerpos")
-        pyxel.load("resources.pyxres")
-        pyxel.run(self.update, self.draw)
-
-
-    def update(self):
-        pyxel.mouse(True)
+    # Actualize elements
+    def simulation_update(self):
         self.__space1.update_space()
 
-
-    def draw(self):
-        self.__space1.draw_space()
+    # Draw elements
+    def simulation_graph(self):
+        pass

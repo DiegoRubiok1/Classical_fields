@@ -1,2 +1,2 @@
 # Classical_fields
-Classical fields simulation using pyxel to graph it!
+Classical fields simulation using pygame to graph it!

@@ -2,7 +2,7 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
-from UHD.button import Button
+
 from particle import Particle
 import pyxel
 
@@ -13,7 +13,6 @@ class Space:
 
         # Particle list
         self.bodies = bodies
-        self.button = Button("Prueba", 10, 10, 200, 10, "HOLA COMO ESTAS")
 
 
     def update_space(self):
@@ -23,24 +22,6 @@ class Space:
         self._electric_field_acceleration()
         self._actualize_particles(1)
 
-    def draw_space(self):
-        # Limpia la pantalla con el color 0 (negro)
-        pyxel.cls(0)
-        self._draw_bodies()
-        self._draw_vector_a()
-        self.button.draw()
-
-    def _draw_bodies(self):
-        for body in self.bodies:
-            pyxel.circ(int(body.pos.i), int(body.pos.j), 2, 200)
-
-    def _draw_vector_a(self):
-        for body in self.bodies:
-            x_0 = body.pos.i
-            y_0 = body.pos.j
-            x_f = x_0 + body.a.i * 1000
-            y_f = y_0 + body.a.j * 1000
-            pyxel.line(x_0, y_0, x_f, y_f, 1)
 
     def _restar_body_acceleration(self):
         for body in self.bodies:
@@ -77,6 +58,7 @@ class Space:
             # List of each body without the particle
             interact_with = self.bodies.copy()
             interact_with.remove(particle)
+
             # Calculates de current particle acceleration due other
             # particles using the method <e_field_generated>
             for other_particle in interact_with:

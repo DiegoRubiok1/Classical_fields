@@ -96,7 +96,7 @@ class Particle:
         if isinstance(velocity, R3Vector):
             self.__vel = velocity
         else:
-            raise TypeError("Instance of mass must be R3Vector: ", type(
+            raise TypeError("Instance of velocity must be R3Vector: ", type(
                 velocity))
 
     @property
@@ -108,7 +108,7 @@ class Particle:
         if isinstance(acceleration, R3Vector):
             self.__a = acceleration
         else:
-            raise TypeError("Instance of mass must be R3Vector: ", type(
+            raise TypeError("Instance of acceleration must be R3Vector: ",type(
                 acceleration))
 
 

@@ -5,11 +5,13 @@ Universidad Carlos III de Madrid
 from algebra_and_calculus.vector import R3Vector
 
 #-------------------------------- ESPACIO -------------------------------------
-WIDTH = 250
-HEIGHT = 250
+WIDTH = 800
+HEIGHT = 800
 
 #-------------------------------- CUERPOS -------------------------------------
 
+COLOR = 0
+RADIUS  = 10
 # Cuerpo 1
 MASS_1 = 2
 CHARGE_1 = 0
@@ -45,6 +47,14 @@ EPSILON_0 = 9
 
 #Constante de Coulomb:
 K = 1/(4 * PI * EPSILON_0)
+
+#--------------------------------- Graphics -----------------------------------
+
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
+
+
 
 
 
