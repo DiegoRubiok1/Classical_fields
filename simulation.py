@@ -13,7 +13,6 @@ from space import Space
 class Simulation:
     def __init__(self):
 
-        #TODO: Add a user friendly way to add bodies and spaces to simulation
         self.__dt = 1/60 # time unit between frames
 
         self.__bod_1 = Particle(R3Vector(WIDTH//2, HEIGHT//2, 0),
@@ -34,6 +33,7 @@ class Simulation:
     # Draw elements
     def simulation_draw(self, surface):
         self.__space1.draw(surface)
+
 
     @property
     def dt(self):

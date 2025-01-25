@@ -23,12 +23,15 @@ class Game:
         self.fps = 60
 
     def set_time_multiplier(self):
-        """Ajusta los FPS según las teclas presionadas."""
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
-            self.time_multiplier = 10
-        else:
-            self.time_multiplier = 1
+        """Adjusts the time multiplier based on the key pressed."""
+        keys = pygame.key.get_pressed()  # Get keys pressed
+
+        for key in range(pygame.K_0, pygame.K_9 + 1):
+            if keys[key]: # If key pressed
+                self.time_multiplier =(key - pygame.K_0) * 10
+                return
+
+        self.time_multiplier = 1
 
     def handle_events(self):
         """Maneja los eventos de la ventana."""
@@ -41,7 +44,7 @@ class Game:
         """Actualiza la lógica del juego."""
         for i in range(self.time_multiplier):
             self.set_time_multiplier()
-            self.simulation.dt = (1/self.fps) * self.time_multiplier
+            self.simulation.dt = (1/self.fps)
             self.simulation.simulation_update()
 
     def draw(self):
