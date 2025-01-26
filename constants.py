@@ -40,7 +40,7 @@ k = R3Vector(0, 0, 1)
 
 #------------------------- CONSTANTES UNIVERSALES -----------------------------
 #Constante de gravitación universal de Newton:
-G = 10**(-31)
+G = 6.672 * 10**(-11)
 
 #Permeabilidad dieléctrica del vacío:
 EPSILON_0 = 9

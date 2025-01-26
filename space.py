@@ -19,7 +19,7 @@ class Space:
         """Main loop during simulation"""
         self._restart_body_acceleration()
         self._gravity_field_acceleration()
-        self._electric_field_acceleration()
+        #self._electric_field_acceleration()
         self._actualize_particles(dt)
 
     def draw(self, surface, scale: int):
