@@ -18,14 +18,14 @@ class Space:
     def update_space(self, dt):
         """Main loop during simulation"""
         self._restart_body_acceleration()
-        self._magnetic_field_acceleration()
+        self._gravity_field_acceleration()
         self._electric_field_acceleration()
         self._actualize_particles(dt)
 
-    def draw(self, surface):
+    def draw(self, surface, scale: int):
         """Draw all the bodies in a space"""
         for particle in self.bodies:
-            particle.draw(surface)
+            particle.draw(surface, scale)
 
 
     def _restart_body_acceleration(self):
@@ -37,7 +37,7 @@ class Space:
             particle.actualize_velocity(dt)
             particle.actualize_position(dt)
 
-    def _magnetic_field_acceleration(self):
+    def _gravity_field_acceleration(self):
         """Method that calculates de acceleration due to all the masses in a space"""
 
         for particle in self.bodies:
@@ -71,5 +71,6 @@ class Space:
                 E = other_particle.e_field_generated(
                     particle.pos.i, particle.pos.j, particle.pos.k)
 
-                # Sum the current acceleration of the particle with the field
+                # Sum the current acceleration of the particle with the
+                # field: a = (q/m)E
                 particle.a = particle.a + E * (particle.q / particle.m)

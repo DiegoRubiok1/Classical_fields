@@ -63,12 +63,13 @@ class Particle:
     def restart_acceleration(self):
         self.a = R3Vector(0,0,0)
 
-    def draw(self, surface):
+    def draw(self, surface, scale):
+
 
         color = (0, 200, 0)
-        center = (self.pos.i, self.pos.j)
+        center = (self.pos.i / scale, self.pos.j / scale)
         #
-        pygame.draw.circle(surface, color, center, self.size)
+        pygame.draw.circle(surface, color, center, self.size / scale)
 
     @property
     def m(self) -> float:

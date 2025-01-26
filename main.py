@@ -2,24 +2,32 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
+#TODO: IMPLEMENT AN EARTH - MOON - SUN AND AN ASTEROID REAL OBJECT SIMULATION
 import pygame
+from pygame.constants import K_DOWN
+
 from simulation import Simulation
 from constants import WIDTH, HEIGHT, BLACK, WHITE
 
 class Game:
     def __init__(self):
+
         # Initialize pygame
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption("Try Graphs")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
+
+        # Space-time control (scale space or multiply time)
         self.time_multiplier = 1
+        self.space_scale = 1 # meter / pixel
+        self.last_key_pressed = None
 
         # Simulation instance
         self.simulation = Simulation()
 
-        # FPS CONTROL
+        # FPS control
         self.fps = 60
 
     def set_time_multiplier(self):
@@ -33,6 +41,26 @@ class Game:
 
         self.time_multiplier = 1
 
+    def set_space_scale(self):
+        """Adjust the space scale based on key presses."""
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_UP] and self.last_key_pressed != pygame.K_UP:
+            self.space_scale += 1
+            self.last_key_pressed = pygame.K_UP
+
+        elif keys[pygame.K_DOWN] and self.last_key_pressed != pygame.K_DOWN:
+            if self.space_scale > 1:
+                self.space_scale -= 1
+                self.last_key_pressed = pygame.K_DOWN
+            elif self.space_scale > 0:
+                self.space_scale -= 0.2
+                self.last_key_pressed = pygame.K_DOWN
+
+        # Reset last_key_pressed when no relevant key is pressed
+        if not keys[pygame.K_UP] and not keys[pygame.K_DOWN]:
+            self.last_key_pressed = None
+
     def handle_events(self):
         """Maneja los eventos de la ventana."""
         for event in pygame.event.get():
@@ -44,6 +72,7 @@ class Game:
         """Actualiza la lógica del juego."""
         for i in range(self.time_multiplier):
             self.set_time_multiplier()
+            self.set_space_scale()
             self.simulation.dt = (1/self.fps)
             self.simulation.simulation_update()
 
@@ -51,18 +80,31 @@ class Game:
         """Dibuja los elementos en la pantalla."""
         self.screen.fill(BLACK)
 
-        # Mostrar FPS
-        fps_text = self.font.render(f"FPS: {self.clock.get_fps():.2f}", True, WHITE)
+        # Draw UHD
+        self.draw_UHD()
+
+        # Draw simulation
+        self.simulation.simulation_draw(self.screen, self.space_scale)
+
+        pygame.display.flip()
+
+    def draw_UHD(self):
+        # Draw FPS
+        fps_text = self.font.render(f"FPS: {self.clock.get_fps():.2f}", True,
+                                    WHITE)
         self.screen.blit(fps_text, (10, 10))
 
-        time_text = self.font.render("t x%.2f >> " %self.time_multiplier,
+        # Draw time multiplier
+        time_text = self.font.render("t x%.2f >> " % self.time_multiplier,
                                      True, WHITE)
         self.screen.blit(time_text, (10, 50))
 
-        # Dibujar simulación
-        self.simulation.simulation_draw(self.screen)
+        # Draw scale
+        scale_text = self.font.render("scale: %.2f m/pixel" %
+                                      self.space_scale,True, WHITE)
 
-        pygame.display.flip()
+        self.screen.blit(scale_text, (10, 90))
+
 
     def run(self):
         """Ejecuta el bucle principal del juego."""

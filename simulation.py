@@ -18,9 +18,9 @@ class Simulation:
         self.__bod_1 = Particle(R3Vector(WIDTH//2, HEIGHT//2, 0),
                     R3Vector(0,0, 0) ,0, 10**35, 10)
         self.__bod_2 = Particle(R3Vector(199, 100, 0), R3Vector(0, 5, 0),
-                 -10, 1, 5)
+                 -10, 10**30, 5)
         self.__bod_3 = Particle(R3Vector(200, 100, 0), R3Vector(0, 1, 0),
-                 0, 1, 5)
+                 0, 10**32, 5)
 
         self.__bodies = [self.__bod_1, self.__bod_2, self.__bod_3]
 
@@ -31,8 +31,8 @@ class Simulation:
         self.__space1.update_space(self.__dt)
 
     # Draw elements
-    def simulation_draw(self, surface):
-        self.__space1.draw(surface)
+    def simulation_draw(self, surface, scale: int):
+        self.__space1.draw(surface, scale)
 
 
     @property
