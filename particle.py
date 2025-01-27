@@ -9,7 +9,7 @@ from constants import G, K
 
 class Particle:
     def __init__(self, pos: R3Vector, vel: R3Vector, charge: float,
-                 mass: float, size: float):
+                 mass: float, radius: float, color: tuple):
         # Cinematic Attributes
         self.__pos =  pos
         self.__vel = vel
@@ -23,7 +23,10 @@ class Particle:
         # Field Attributes
         self.__q = charge
         self.__m = mass
-        self.__size = size #At current version: radius
+
+        # Representation attributes
+        self.__radius = radius
+        self.__color = color
 
 
     def g_field_generated(self, x, y, z) -> R3Vector:
@@ -64,12 +67,20 @@ class Particle:
         self.a = R3Vector(0,0,0)
 
     def draw(self, surface, scale):
+        """Draws a particle as a circle with a radius proportional to the
+        image  scale. If, after scaling, its radius is smaller than a pixel,
+        it is drawn as a single pixel to prevent it from disappearing"""
 
-
-        color = (0, 200, 0)
+        color = self.__color
         center = (self.pos.i / scale, self.pos.j / scale)
-        #
-        pygame.draw.circle(surface, color, center, self.size / scale)
+        scaled_radius = self.size / scale
+
+        if scaled_radius > 1:
+            pygame.draw.circle(surface, color, center, scaled_radius)
+
+        else:
+            pygame.draw.circle(surface, color, center, 1)
+
 
     @property
     def m(self) -> float:
@@ -85,17 +96,17 @@ class Particle:
 
     @property
     def size(self):
-        return self.__size
+        return self.__radius
 
     @size.setter
     def size(self, size):
         if type(size) != float:
-            raise TypeError("Instance of size must be float: " + str(type(
+            raise TypeError("Instance of radius must be float: " + str(type(
                 size)))
         elif size < 0:
-            raise ValueError("The value of size must be positive. Value: " +
+            raise ValueError("The value of radius must be positive. Value: " +
                              str(size))
-        self.__size = size
+        self.__radius = size
 
     @property
     def q(self) -> float:

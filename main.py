@@ -7,7 +7,7 @@ import pygame
 from pygame.constants import (K_DOWN, K_SPACE, K_LSHIFT, K_RIGHT, K_UP,
                               K_LEFT, K_z, K_x)
 
-from simulation import Simulation
+from simulation import Simulation, SunEarthMoonSim
 from constants import WIDTH, HEIGHT, BLACK, WHITE
 
 class Game:
@@ -20,13 +20,14 @@ class Game:
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
 
+        # Simulation instance
+        self.simulation = SunEarthMoonSim()
+
         # Space-time control (scale space or multiply time)
         self.time_multiplier = 1
-        self.space_scale = 1
+        self.space_scale = self.simulation.scale
         self.last_key_pressed = None
 
-        # Simulation instance
-        self.simulation = Simulation()
 
         # FPS control
         self.fps = 60
@@ -45,16 +46,22 @@ class Game:
         self.time_multiplier = 1
 
     def set_space_scale(self):
-        """Adjust the space scale based on key presses."""
+        """Adjust the space scale based on keys pressed."""
         keys = pygame.key.get_pressed()
 
-        if keys[K_x] and self.last_key_pressed != K_x:
-            self.space_scale += self.simulation.scale
+        if (keys[K_x] and self.last_key_pressed != K_x and
+                self.space_scale > self.simulation.scale):
+            self.space_scale -= self.simulation.scale
             self.last_key_pressed = K_x
 
-        elif (keys[K_z] and self.last_key_pressed != K_z
-              and self.space_scale > 0):
-            self.space_scale -= self.simulation.scale
+        elif (keys[K_x] and self.last_key_pressed != K_x and
+                self.space_scale <= self.simulation.scale):
+            self.space_scale -= self.space_scale / 4
+            self.last_key_pressed = K_x
+
+
+        elif keys[K_z] and self.last_key_pressed != K_z:
+            self.space_scale += self.simulation.scale
             self.last_key_pressed = K_z
 
         # Reset last_key_pressed when no relevant key is pressed
@@ -73,7 +80,7 @@ class Game:
         self.set_time_multiplier()
         self.set_space_scale()
         self.simulation.dt = (1/self.fps) * self.time_multiplier
-        self.move_observer()
+        self.move_camera()
         self.simulation.simulation_update()
 
     def draw(self):
@@ -105,21 +112,24 @@ class Game:
 
         self.screen.blit(scale_text, (10, 90))
 
-    def move_observer(self):
+    def move_camera(self):
+        """Method that allows the user to move the vision using the
+        direction keys"""
 
         keys = pygame.key.get_pressed()
+        dist =  5 * self.space_scale
 
         if keys[K_UP]:
-            self.simulation.move_observer("up", 10)
+            self.simulation.move_observer("up", dist)
 
         elif keys[K_DOWN]:
-            self.simulation.move_observer("down", 10)
+            self.simulation.move_observer("down", dist)
 
         elif keys[K_RIGHT]:
-            self.simulation.move_observer("right", 10)
+            self.simulation.move_observer("right", dist)
 
         elif keys[K_LEFT]:
-            self.simulation.move_observer("left", 10)
+            self.simulation.move_observer("left", dist)
 
 
 
