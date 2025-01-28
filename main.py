@@ -156,7 +156,7 @@ class Game:
         pygame.quit()
 
 
-# Ejecutar el juego
+# Execute
 if __name__ == "__main__":
     game = Game()
     game.run()

@@ -184,6 +184,19 @@ class SolarSystemSim(Simulation):
             )
             self._Simulation__bodies.append(asteroid)
 
+class RandomParticleSimulation(Simulation):
+    def __init__(self):
+        # Define specific values for this simulation
+
+        scale = 100  # meter / pixels
+        t_increment = 10  # month per second
+        dt = 1 / 60  # 60 FPS initially
+
+        super().__init__(scale=scale, t_increment=t_increment, dt=dt)
+
+
+
+
 
 
 
