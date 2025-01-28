@@ -5,9 +5,9 @@ Universidad Carlos III de Madrid
 #TODO: IMPLEMENT AN EARTH - MOON - SUN AND AN ASTEROID REAL OBJECT SIMULATION
 import pygame
 from pygame.constants import (K_DOWN, K_SPACE, K_LSHIFT, K_RIGHT, K_UP,
-                              K_LEFT, K_z, K_x)
+                              K_LEFT, K_z, K_x, K_b)
 
-from simulation import Simulation, SunEarthMoonSim
+from simulation import Simulation, SolarSystemSim
 from constants import WIDTH, HEIGHT, BLACK, WHITE
 
 class Game:
@@ -21,16 +21,26 @@ class Game:
         self.font = pygame.font.Font(None, 36)
 
         # Simulation instance
-        self.simulation = SunEarthMoonSim()
+        self.simulation = SolarSystemSim()
 
         # Space-time control (scale space or multiply time)
         self.time_multiplier = 1
         self.space_scale = self.simulation.scale
         self.last_key_pressed = None
 
+        # Aspect
+        self.fill_black = True
 
         # FPS control
         self.fps = 60
+
+    def set_fill_background(self):
+        keys = pygame.key.get_pressed()  # Get keys pressed
+
+        # If key "b" pressed fill background with black
+        if keys[K_b]:
+            self.fill_black = not self.fill_black
+
 
     def set_time_multiplier(self):
         """Adjusts the time multiplier based on the key pressed."""
@@ -69,14 +79,15 @@ class Game:
             self.last_key_pressed = None
 
     def handle_events(self):
-        """Maneja los eventos de la ventana."""
+        """Handle de events in screen."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return False
         return True
 
     def update(self):
-        """Actualiza la lógica del juego."""
+        """Actualize the logic of the simulation."""
+        self.set_fill_background()
         self.set_time_multiplier()
         self.set_space_scale()
         self.simulation.dt = (1/self.fps) * self.time_multiplier
@@ -84,10 +95,12 @@ class Game:
         self.simulation.simulation_update()
 
     def draw(self):
-        """Dibuja los elementos en la pantalla."""
-        self.screen.fill(BLACK)
+        """Draws elements in screen."""
+        # Fill screen black (or not)
+        if self.fill_black:
+            self.screen.fill(BLACK)
 
-        # Draw UHD
+        #Draw UHD
         self.draw_UHD()
 
         # Draw simulation
@@ -117,7 +130,7 @@ class Game:
         direction keys"""
 
         keys = pygame.key.get_pressed()
-        dist =  5 * self.space_scale
+        dist =  15 * self.space_scale
 
         if keys[K_UP]:
             self.simulation.move_observer("up", dist)
@@ -130,7 +143,6 @@ class Game:
 
         elif keys[K_LEFT]:
             self.simulation.move_observer("left", dist)
-
 
 
     def run(self):

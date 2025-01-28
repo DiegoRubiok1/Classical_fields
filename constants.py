@@ -10,26 +10,7 @@ HEIGHT = 850
 
 #-------------------------------- CUERPOS -------------------------------------
 
-COLOR = 0
-RADIUS  = 10
-# Cuerpo 1
-MASS_1 = 2
-CHARGE_1 = 0
-X_1 = WIDTH/2
-Y_1 = HEIGHT/2
-
-# Cuerpo 2
-MASS_2 = 5
-CHARGE_2 = 0
-X_2 = X_1 + 100
-Y_2 = Y_1 + 100
-
-#Cuerpo 3
-MASS_3 = 6
-CHARGE_3 = 0
-X_3 = X_1 - 100
-Y_3 = Y_1 - 100
-
+N_ASTEROID = 200
 #------------------------- CONSTANTES MATEMÁTICAS -----------------------------
 PI = 3.14159265
 e = 2,7182818284

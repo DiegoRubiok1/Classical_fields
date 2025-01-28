@@ -2,13 +2,10 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
-from multiprocessing.managers import Value
-
-import pygame.base
-from pygame.transform import scale
+import random
 
 from algebra_and_calculus.vector import R3Vector
-from constants import WIDTH, HEIGHT
+from constants import WIDTH, HEIGHT, G, PI, N_ASTEROID
 from particle import Particle
 from space import Space
 
@@ -85,26 +82,30 @@ class Simulation:
             self.__t_increment = increment
 
 
-class SunEarthMoonSim(Simulation):
+class SolarSystemSim(Simulation):
     def __init__(self):
-        # Definir valores específicos para esta simulación
+        # Define specific values for this simulation
+
         scale = 14.95*10**10 / 500  # example: distance from sun to earth / pixels
-        t_increment = 60 * 60 * 24  # Day per second
-        dt = 1 / 30  # 30 FPS
+        t_increment = 4 * 7 * 60 * 60 * 24  # month per second
+        dt = 1 / 60  # 60 FPS initially
+
         super().__init__(scale=scale, t_increment=t_increment, dt=dt)
 
         # Creates all bodies
-        self.__crear_sistema_tierra_luna()
+        self.__create_solar_system()
+        # Creates asteroid belt
+        self.__create_asteroid_belt()
 
-    def __crear_sistema_tierra_luna(self):
-        """Define los cuerpos de la simulación Tierra-Luna"""
+    def __create_solar_system(self):
+        """Define bodies in the solar system simulation"""
         earth = Particle(
-            pos=R3Vector(14.95*10**10 , 0, 0),
-            vel=R3Vector(0, 29.78 * 10**3, 0),
-            charge=0,
-            mass=5.972 * 10 ** 24,
-            radius=6371 * 10 ** 3,
-            color=(0,20,200)
+            pos=R3Vector(1.496*10**11 , 0, 0), # m
+            vel=R3Vector(0, 29780, 0),    # m / s
+            charge=0, # C
+            mass=5.972 * 10 ** 24, # kg
+            radius=6371 * 10 ** 3, # m
+            color=(0,20,200) # R, G, B
         )
         moon = Particle(
             pos=earth.pos + R3Vector(3.84 * 10 ** 8, 0, 0),
@@ -123,13 +124,67 @@ class SunEarthMoonSim(Simulation):
             color=(200,200,0)
         )
         mercurio = Particle(
-            pos=R3Vector(5.89*10**10, 0, 0),
+            pos=R3Vector(5.7909*10**10, 0, 0),
             vel=R3Vector(0, 47870, 0),
             charge=0,
-            mass=3.3 * 10 ** 23,
+            mass=3.3011 * 10 ** 23,
             radius=2.4397*10**6,
             color=(200, 200, 200)
         )
+        venus = Particle(
+            pos=R3Vector(1.08209 * 10**11, 0, 0),
+            vel=R3Vector(0, 35020, 0),
+            charge=0,
+            mass=4.8675 * 10**24,
+            radius=6.0518*10**6,
+            color=(200,200,200)
+        )
+        mars = Particle(
+            pos=R3Vector(2.27943 * 10 ** 11, 0, 0),
+            vel=R3Vector(0, 24070, 0),
+            charge=0,
+            mass=6.4171 * 10 ** 24, #originaly 24
+            radius=3.3895 * 10 ** 6,
+            color=(200, 0, 0)
+        )
 
-        self._Simulation__bodies.extend( [sun, mercurio, earth, moon])
         # Add bodies to space
+        self._Simulation__bodies.extend( [sun, mercurio, venus, earth, moon,
+                                          mars])
+    def __create_asteroid_belt(self):
+        for i in range(N_ASTEROID):
+            # Calculate de radius of the orbit for the asteroid
+            r = random.randint(33*10**10, 48*10**10)
+            # Generates a random x value in the orbit
+            x = random.randint(-r, r)
+            # Calculates y with x and r
+            y_sign = random.choice((-1,1))
+            y = y_sign*((r**2 - x**2)**(1/2))
+            pos = R3Vector(x, y, 0)
+            # mass of sun
+            M = 1.989 * 10**30
+            # velocity with mass of sun and radius
+            v = (G*M/r)**(1/2)
+            #v = 10000 * y_sign
+            #vectorize in perpendicular direction of pos
+            vel =  R3Vector(-y, x, 0) * (v/r)
+            #generate a random radius for asteroid in meters
+            radius = random.randint(20000, 940000)
+            #calculates the mass with density
+            d = 2000  # kg/m**3 (Silicates density)
+            mass = 4*PI*radius**3 * d
+
+            asteroid = Particle(
+                pos= pos,
+                vel= vel,
+                charge= 0,
+                mass= mass,
+                radius= radius,
+                color=(100,100,100)
+            )
+            self._Simulation__bodies.append(asteroid)
+
+
+
+
+
