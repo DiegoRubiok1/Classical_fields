@@ -193,6 +193,37 @@ class RandomParticleSimulation(Simulation):
         dt = 1 / 60  # 60 FPS initially
 
         super().__init__(scale=scale, t_increment=t_increment, dt=dt)
+        self.__create_star()
+        self.__create_particles()
+
+    def __create_particles(self):
+
+        for i in range(N_ASTEROID):
+
+            m = random.randint(10**3, 10**10)
+            r = m / 10**25
+            
+            asteroid = Particle(
+                pos= R3Vector(10**4, random.randint(0, 85000), 0),
+                vel= R3Vector(10000, 0, 0),
+                charge= 0,
+                mass= m,
+                radius= r,
+                color=(100,100,100)
+            )
+            self._Simulation__bodies.append(asteroid)
+
+    def __create_star(self):
+        sun = Particle(
+            pos=R3Vector(5 * 10 ** 4, 4 * 10 ** 4, 0),
+            vel=R3Vector(0, 0, 0),
+            charge=0,
+            mass=1.989 * 10 ** 23,
+            radius=1000,
+            color=(200, 200, 0)
+        )
+        self._Simulation__bodies.append(sun)
+
 
 
 

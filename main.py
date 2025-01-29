@@ -2,12 +2,12 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
-#TODO: IMPLEMENT AN EARTH - MOON - SUN AND AN ASTEROID REAL OBJECT SIMULATION
+
 import pygame
 from pygame.constants import (K_DOWN, K_SPACE, K_LSHIFT, K_RIGHT, K_UP,
                               K_LEFT, K_z, K_x, K_b)
 
-from simulation import Simulation, SolarSystemSim
+from simulation import Simulation, SolarSystemSim, RandomParticleSimulation
 from constants import WIDTH, HEIGHT, BLACK, WHITE
 
 class Game:
@@ -132,21 +132,21 @@ class Game:
         keys = pygame.key.get_pressed()
         dist =  15 * self.space_scale
 
-        if keys[K_UP]:
+        if keys[K_UP]:      # Move up
             self.simulation.move_observer("up", dist)
 
-        elif keys[K_DOWN]:
+        elif keys[K_DOWN]:      # Move down
             self.simulation.move_observer("down", dist)
 
-        elif keys[K_RIGHT]:
+        elif keys[K_RIGHT]:     # Move right
             self.simulation.move_observer("right", dist)
 
-        elif keys[K_LEFT]:
+        elif keys[K_LEFT]:      # Move left
             self.simulation.move_observer("left", dist)
 
 
     def run(self):
-        """Ejecuta el bucle principal del juego."""
+        """Executes the main loop."""
         running = True
         while running:
             running = self.handle_events()
