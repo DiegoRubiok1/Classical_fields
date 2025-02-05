@@ -2,7 +2,7 @@
 Created by Diego Rubio Canales in ene 2025
 Universidad Carlos III de Madrid
 """
-from algebra_and_calculus.vector import R3Vector
+from algebra.vector import R3Vector
 
 #-------------------------------- ESPACIO -------------------------------------
 WIDTH = 940

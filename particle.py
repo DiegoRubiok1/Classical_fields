@@ -4,7 +4,7 @@ Universidad Carlos III de Madrid
 """
 import pygame.draw
 
-from algebra_and_calculus.vector import R3Vector
+from algebra.vector import R3Vector
 from constants import G, K
 
 class Particle:

@@ -4,7 +4,7 @@ Universidad Carlos III de Madrid
 """
 import random
 
-from algebra_and_calculus.vector import R3Vector
+from algebra.vector import R3Vector
 from constants import WIDTH, HEIGHT, G, PI, N_ASTEROID
 from particle import Particle
 from space import Space
@@ -200,7 +200,7 @@ class RandomParticleSimulation(Simulation):
 
         for i in range(N_ASTEROID):
 
-            m = random.randint(10**3, 10**10)
+            m = random.randint(10**3, 10**12)
             r = m / 10**25
             
             asteroid = Particle(
