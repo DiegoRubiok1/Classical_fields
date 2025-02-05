@@ -3,9 +3,12 @@
 Simulation of classical fields using Pygame for visualization!
 
 ## Current Version
-A realistic parameter simulation of the Sun, Mercury, Venus, Earth, Moon, Mars, and the asteroid belt.
-
----
+A realistic parameter simulation called `SolarSystemSim` of the Sun, Mercury, 
+Venus, Earth, 
+Moon, 
+Mars, and the asteroid belt.
+Additionally, a subclass simulation called `RandomParticleSimulation` has been 
+implemented, which generates hundreds of randomly-massed asteroids.
 
 ## Controls
 - **Camera Movement**  
