@@ -21,7 +21,7 @@ class Game:
         self.font = pygame.font.Font(None, 36)
 
         # Simulation instance
-        self.simulation = SolarSystemSim()
+        self.simulation = RandomParticleSimulation()
 
         # Space-time control (scale space or multiply time)
         self.time_multiplier = 1
