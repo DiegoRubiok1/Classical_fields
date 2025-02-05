@@ -1,2 +1,4 @@
 # Main language: Python
 *.py linguist-language=Python
+.venv/* linguist-vendored
+
